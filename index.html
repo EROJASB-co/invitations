@@ -1,1 +1,573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Erika & Andrés · 15 Agosto 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#EDE5D8; --warm:#F5EFE6; --card:#FFFFFF;
+  --olive:#5C6645; --sage:#3D5C2A; --sage-light:#8AAE6A;
+  --gold:#9C6E2E; --gold-dark:#8C6A38;
+  --dark:#243D1A; --text:#3A2E1C; --text-mid:#5A4A32; --text-light:#7A6A50;
+  --travel-bg:#E6DDD0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;}
 
+/* BOTANICAL BG */
+.botanical-bg{position:absolute;inset:0;pointer-events:none;z-index:0;}
+.botanical-bg svg{width:100%;height:100%;position:absolute;inset:0;opacity:0.22;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 30px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),#B8862A,var(--gold),transparent);}
+.pre{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--text-mid);margin-bottom:28px;position:relative;z-index:1;font-weight:300;}
+.names{font-family:'Playfair Display',serif;font-size:clamp(62px,13vw,102px);line-height:0.92;color:var(--dark);position:relative;z-index:1;font-weight:600;}
+.names em{font-style:italic;color:#5C4A2A;font-weight:400;}
+.amp{color:var(--gold);font-style:italic;display:block;font-weight:400;}
+.sep{display:flex;align-items:center;gap:12px;margin:28px auto;width:220px;position:relative;z-index:1;}
+.sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+.sep-line:last-child{background:linear-gradient(90deg,var(--gold),transparent);}
+.sep-icon{font-size:13px;color:var(--sage);}
+.hero-date{font-family:'Playfair Display',serif;font-size:17px;color:var(--text-mid);letter-spacing:2px;position:relative;z-index:1;font-weight:400;}
+.hero-location{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--sage);margin-top:8px;position:relative;z-index:1;font-weight:300;}
+
+/* LAYOUT */
+.section{max-width:660px;margin:0 auto;padding:70px 30px;position:relative;z-index:1;}
+.section-label{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block;font-weight:300;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,38px);font-weight:600;color:var(--dark);line-height:1.15;margin-bottom:18px;}
+.section-title em{font-style:italic;color:#5C4A2A;font-weight:400;}
+.section-text{font-size:15px;line-height:1.9;color:var(--text-mid);font-weight:300;}
+.divider{display:flex;align-items:center;gap:16px;padding:0 30px;max-width:660px;margin:0 auto;}
+.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(184,140,90,0.4));}
+.divider-line:last-child{background:linear-gradient(90deg,rgba(184,140,90,0.4),transparent);}
+.divider-icon{font-size:16px;color:var(--gold);}
+
+/* TIMELINE */
+.titem{background:rgba(255,255,255,0.6);border:1px solid rgba(184,140,90,0.22);padding:18px 20px;margin-bottom:10px;}
+.ttime{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;font-weight:300;}
+.tplace{font-family:'Playfair Display',serif;font-size:19px;color:var(--dark);margin-bottom:3px;font-weight:600;}
+.tdesc{font-size:13px;color:var(--text-mid);font-weight:300;}
+.tbadge{display:inline-block;margin-top:7px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);border:1px solid var(--sage-light);padding:3px 10px;}
+.dress{text-align:center;font-size:12px;letter-spacing:2px;color:var(--text-mid);margin-top:22px;font-weight:300;line-height:1.7;}
+
+/* MENU */
+.menu-tabs{display:flex;border-bottom:1px solid rgba(184,140,90,0.3);margin:28px 0 0;}
+.menu-tab{flex:1;padding:12px;font-size:10px;letter-spacing:3px;text-transform:uppercase;background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;color:var(--text-light);font-family:'Jost',sans-serif;font-weight:300;margin-bottom:-1px;transition:all 0.3s;}
+.menu-tab.active{color:var(--dark);border-bottom-color:var(--gold);}
+.menu-panel{display:none;}
+.menu-panel.active{display:block;}
+.course{display:flex;gap:16px;align-items:flex-start;padding:18px 0;border-bottom:1px solid rgba(184,140,90,0.15);}
+.course:last-child{border-bottom:none;}
+.course-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--sage);min-width:90px;flex-shrink:0;padding-top:3px;font-weight:300;}
+.course-name{font-family:'Playfair Display',serif;font-size:17px;color:var(--dark);line-height:1.35;font-weight:400;}
+
+/* TRAVEL */
+.travel-section{background:var(--travel-bg);padding:70px 0;}
+.travel-inner{max-width:660px;margin:0 auto;padding:0 30px;}
+.travel-tabs{display:flex;border-bottom:1px solid rgba(184,140,90,0.25);margin:28px 0 0;overflow-x:auto;}
+.travel-tab{white-space:nowrap;padding:11px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;color:var(--text-light);font-family:'Jost',sans-serif;font-weight:300;margin-bottom:-1px;transition:all 0.3s;}
+.travel-tab.active{color:var(--dark);border-bottom-color:var(--gold);}
+.travel-panel{display:none;padding-top:28px;}
+.travel-panel.active{display:block;}
+
+/* INFO BOX */
+.info-box{background:rgba(255,255,255,0.6);border-left:3px solid var(--gold);padding:16px 20px;margin:16px 0;font-size:14px;color:var(--text-mid);line-height:1.8;font-weight:300;}
+.info-box strong{color:var(--dark);font-weight:400;}
+
+/* ROUTE CARDS */
+.route-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
+.route-card{background:rgba(255,255,255,0.65);border:1px solid rgba(184,140,90,0.2);padding:16px;}
+.route-card-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:7px;display:block;font-weight:300;}
+.route-card-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--dark);margin-bottom:6px;line-height:1.2;}
+.route-card-info{font-size:13px;color:var(--text-mid);line-height:1.65;font-weight:300;}
+
+/* HOTELS */
+.hotel-list{display:flex;flex-direction:column;gap:12px;margin-top:20px;}
+.hotel-card{background:rgba(255,255,255,0.65);border:1px solid rgba(184,140,90,0.2);padding:18px 22px;display:flex;gap:18px;}
+.hotel-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:rgba(184,140,90,0.3);line-height:1;flex-shrink:0;width:32px;}
+.hotel-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--dark);margin-bottom:3px;}
+.hotel-addr{font-size:12px;color:var(--text-mid);line-height:1.55;margin-bottom:4px;font-weight:300;}
+.hotel-stars{color:var(--gold);font-size:12px;margin-bottom:5px;display:block;}
+.hotel-tag{display:inline-block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);border:1px solid var(--sage-light);padding:2px 8px;margin-top:5px;}
+
+/* SPOT GRID */
+.spot-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
+.spot-card{background:rgba(255,255,255,0.65);border:1px solid rgba(138,158,122,0.2);padding:16px;}
+.spot-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--sage);margin-bottom:6px;display:block;font-weight:300;}
+.spot-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--dark);margin-bottom:5px;line-height:1.2;}
+.spot-desc{font-size:13px;color:var(--text-mid);line-height:1.65;font-weight:300;}
+
+/* RESTAURANTS */
+.resto-group{margin-top:26px;}
+.resto-group-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(184,140,90,0.2);display:block;font-weight:300;}
+.resto-list{display:flex;flex-direction:column;gap:10px;}
+.resto-item{background:rgba(255,255,255,0.65);border:1px solid rgba(138,158,122,0.15);padding:14px 18px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.resto-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--dark);margin-bottom:3px;}
+.resto-desc{font-size:12px;color:var(--text-mid);line-height:1.6;font-weight:300;}
+.resto-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);white-space:nowrap;padding-top:3px;flex-shrink:0;font-weight:300;}
+
+/* RSVP FORM */
+.rsvp-form{margin-top:36px;text-align:left;}
+.rsvp-field{margin-bottom:22px;}
+.rsvp-label{display:block;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(184,140,90,0.8);margin-bottom:10px;font-weight:300;}
+.rsvp-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(245,239,230,0.2);color:#F5EFE6;font-family:'Jost',sans-serif;font-weight:300;font-size:14px;padding:10px 0;outline:none;transition:border-color 0.3s;box-sizing:border-box;}
+.rsvp-input::placeholder{color:rgba(245,239,230,0.25);}
+.rsvp-input:focus{border-bottom-color:rgba(184,140,90,0.6);}
+.rsvp-options{display:flex;gap:12px;}
+.rsvp-opt{flex:1;padding:14px 8px;background:transparent;border:1px solid rgba(245,239,230,0.15);color:rgba(245,239,230,0.5);font-family:'Jost',sans-serif;font-weight:300;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all 0.3s;text-transform:uppercase;}
+.rsvp-opt.active{border-color:var(--gold);color:var(--gold);}
+.rsvp-menu-cards{display:flex;gap:12px;}
+.rsvp-menu-card{flex:1;border:1px solid rgba(245,239,230,0.15);padding:16px 12px;cursor:pointer;transition:all 0.3s;text-align:center;}
+.rsvp-menu-card.active{border-color:var(--gold);}
+.rsvp-menu-label{display:block;font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:#F5EFE6;margin-bottom:6px;}
+.rsvp-menu-detail{display:block;font-size:9px;letter-spacing:1px;color:rgba(245,239,230,0.35);line-height:1.6;}
+
+/* RSVP */
+.rsvp-section{background:var(--dark);padding:70px 30px;position:relative;}
+.rsvp-section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),#B8862A,var(--gold),transparent);}
+.rsvp-inner{max-width:520px;margin:0 auto;text-align:center;}
+.rsvp-section .section-label{color:#B8862A;}
+.rsvp-section .section-title{color:#F5EFE6;}
+.rsvp-section .section-title em{color:#D4B98A;}
+.rsvp-section .section-text{color:rgba(245,239,230,0.55);}
+
+/* BTN */
+.btn{display:inline-block;padding:16px 48px;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'Jost',sans-serif;font-weight:300;font-size:11px;letter-spacing:5px;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all 0.4s;margin-top:32px;position:relative;overflow:hidden;}
+.btn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateY(100%);transition:transform 0.4s ease;z-index:0;}
+.btn:hover{color:var(--dark);}
+.btn:hover::before{transform:translateY(0);}
+.btn span{position:relative;z-index:1;}
+.btn-dark{display:block;width:100%;padding:16px;background:var(--dark);color:var(--cream);font-family:'Jost',sans-serif;font-weight:300;font-size:11px;letter-spacing:5px;text-transform:uppercase;text-align:center;cursor:pointer;margin-top:36px;border:none;transition:all 0.4s;text-decoration:none;}
+.btn-dark:hover{background:var(--gold);color:var(--dark);}
+
+/* FOOTER */
+
+.footer{text-align:center;padding:60px 30px;background:var(--dark);border-top:1px solid rgba(255,255,255,0.06);}
+.footer-names{font-family:'Playfair Display',serif;font-size:28px;font-style:italic;color:var(--gold);letter-spacing:2px;font-weight:400;}
+.footer-date{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(245,239,230,0.25);margin-top:8px;font-weight:300;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{opacity:0;transform:translateY(16px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:520px){
+  .route-cards,.spot-grid{grid-template-columns:1fr;}
+  .resto-item{flex-direction:column;}
+  .names{font-size:52px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="botanical-bg">
+    <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+      <path d="M-20 300 Q80 250 120 200 Q140 170 160 140" stroke="#5C6645" stroke-width="1.8" fill="none"/>
+      <path d="M120 200 Q98 178 78 188" stroke="#5C6645" stroke-width="1.2" fill="none"/>
+      <path d="M140 175 Q118 158 103 168" stroke="#5C6645" stroke-width="1.2" fill="none"/>
+      <ellipse cx="73" cy="191" rx="14" ry="8" fill="#3D5C2A" transform="rotate(-30 73 191)"/>
+      <ellipse cx="98" cy="171" rx="13" ry="7" fill="#3D5C2A" transform="rotate(-45 98 171)"/>
+      <ellipse cx="113" cy="193" rx="11" ry="7" fill="#3D5C2A" transform="rotate(20 113 193)"/>
+      <path d="M-20 350 Q55 318 88 298 Q108 283 123 263" stroke="#5C6645" stroke-width="1.2" fill="none"/>
+      <ellipse cx="86" cy="301" rx="10" ry="6" fill="#3D5C2A" transform="rotate(-20 86 301)"/>
+      <ellipse cx="118" cy="266" rx="9" ry="5" fill="#3D5C2A" transform="rotate(-50 118 266)"/>
+      <path d="M10 420 Q50 390 75 360 Q90 340 100 315" stroke="#5C6645" stroke-width="1" fill="none"/>
+      <ellipse cx="73" cy="363" rx="9" ry="5" fill="#3D5C2A" transform="rotate(-30 73 363)"/>
+      <circle cx="160" cy="140" r="5" fill="#D4B98A" opacity="0.75"/>
+      <circle cx="154" cy="132" r="3.5" fill="#F5EFE6" opacity="0.9"/>
+      <circle cx="166" cy="132" r="3.5" fill="#F5EFE6" opacity="0.9"/>
+      <circle cx="169" cy="142" r="3.5" fill="#F5EFE6" opacity="0.9"/>
+      <circle cx="151" cy="142" r="3.5" fill="#F5EFE6" opacity="0.9"/>
+      <path d="M820 280 Q720 230 680 180 Q660 150 640 120" stroke="#5C6645" stroke-width="1.8" fill="none"/>
+      <path d="M680 180 Q700 160 720 168" stroke="#5C6645" stroke-width="1.2" fill="none"/>
+      <path d="M660 155 Q675 135 692 142" stroke="#5C6645" stroke-width="1.2" fill="none"/>
+      <ellipse cx="722" cy="170" rx="14" ry="8" fill="#3D5C2A" transform="rotate(30 722 170)"/>
+      <ellipse cx="695" cy="145" rx="13" ry="7" fill="#3D5C2A" transform="rotate(45 695 145)"/>
+      <ellipse cx="678" cy="172" rx="11" ry="7" fill="#3D5C2A" transform="rotate(-20 678 172)"/>
+      <path d="M820 350 Q745 318 712 298 Q692 283 677 263" stroke="#5C6645" stroke-width="1.2" fill="none"/>
+      <ellipse cx="714" cy="301" rx="10" ry="6" fill="#3D5C2A" transform="rotate(20 714 301)"/>
+      <ellipse cx="682" cy="266" rx="9" ry="5" fill="#3D5C2A" transform="rotate(50 682 266)"/>
+      <path d="M790 420 Q750 390 725 360 Q710 340 700 315" stroke="#5C6645" stroke-width="1" fill="none"/>
+      <ellipse cx="727" cy="363" rx="9" ry="5" fill="#3D5C2A" transform="rotate(30 727 363)"/>
+      <circle cx="640" cy="120" r="5" fill="#D4B98A" opacity="0.75"/>
+      <circle cx="634" cy="112" r="3.5" fill="#F5EFE6" opacity="0.9"/>
+      <circle cx="646" cy="112" r="3.5" fill="#F5EFE6" opacity="0.9"/>
+      <circle cx="649" cy="122" r="3.5" fill="#F5EFE6" opacity="0.9"/>
+      <circle cx="631" cy="122" r="3.5" fill="#F5EFE6" opacity="0.9"/>
+      <path d="M200 620 Q240 560 260 520 Q275 490 285 460" stroke="#5C6645" stroke-width="1.3" fill="none"/>
+      <ellipse cx="258" cy="522" rx="11" ry="6" fill="#3D5C2A" transform="rotate(60 258 522)"/>
+      <ellipse cx="282" cy="465" rx="10" ry="5" fill="#3D5C2A" transform="rotate(30 282 465)"/>
+      <path d="M600 620 Q560 555 542 515 Q530 488 520 458" stroke="#5C6645" stroke-width="1.3" fill="none"/>
+      <ellipse cx="544" cy="517" rx="11" ry="6" fill="#3D5C2A" transform="rotate(-60 544 517)"/>
+      <ellipse cx="522" cy="462" rx="10" ry="5" fill="#3D5C2A" transform="rotate(-30 522 462)"/>
+    </svg>
+  </div>
+  <p class="pre">Nos casamos</p>
+  <div class="names">Erika<br><span class="amp">&</span><em>Andrés</em></div>
+  <div class="sep"><div class="sep-line"></div><span class="sep-icon">✦</span><div class="sep-line"></div></div>
+  <p class="hero-date">15 de Agosto · 2026</p>
+  <p class="hero-location">Rionegro, Antioquia · Colombia</p>
+</section>
+
+<!-- PROGRAMA -->
+<section class="section fade-in">
+  <span class="section-label">El gran día</span>
+  <h2 class="section-title">Un momento que <em>atesoraremos</em> para siempre</h2>
+  <p class="section-text">Con el corazón lleno de alegría, les invitamos a celebrar con nosotros el inicio de nuestra vida juntos. Su presencia hará este día aún más especial.</p>
+  <div style="margin-top:28px;">
+    <div class="titem">
+      <p class="ttime">3:30 p.m. · Ceremonia</p>
+      <p class="tplace">Parroquia Nuestra Señora de Chiquinquirá</p>
+      <p class="tdesc">El Tablazo, Rionegro · Antioquia</p>
+    </div>
+    <div class="titem">
+      <p class="ttime">Recepción</p>
+      <p class="tplace">Zona E · Salón Green House</p>
+      <p class="tdesc">Rionegro · Antioquia</p>
+      <span class="tbadge">~8 min desde la parroquia · 3 km</span>
+    </div>
+  </div>
+  <p class="dress">✦ Dress code · Queremos verte elegante — vestido largo para ellas, sin estampados ni tonos blancos. Traje con corbata para ellos.</p>
+  <p class="dress">✦ Evento exclusivo para adultos</p>
+</section>
+
+<div class="divider fade-in"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+<!-- MENÚ -->
+<section class="section fade-in">
+  <span class="section-label">La mesa</span>
+  <h2 class="section-title">Una velada <em>muy especial</em></h2>
+  <p class="section-text">Hemos diseñado dos menús para esta noche. Explóralos antes de confirmar tu asistencia.</p>
+  <div class="menu-tabs">
+    <button class="menu-tab active" onclick="switchMenu('novia')">Menú de la Novia</button>
+    <button class="menu-tab" onclick="switchMenu('novio')">Menú del Novio</button>
+  </div>
+  <div class="menu-panel active" id="menu-novia">
+    <div class="course"><span class="course-label">Entrada</span><span class="course-name">Mini tartar de atún con aguacate, ponzu y teriyaki</span></div>
+    <div class="course"><span class="course-label">Plato fuerte</span><span class="course-name">Pesca blanca con cama de plátano maduro, queso costeño frito y brotes</span></div>
+    <div class="course"><span class="course-label">Postre</span><span class="course-name">Torta de novios · Mesa de postres</span></div>
+  </div>
+  <div class="menu-panel" id="menu-novio">
+    <div class="course"><span class="course-label">Entrada</span><span class="course-name">Ceviche de chicharrón</span></div>
+    <div class="course"><span class="course-label">Plato fuerte</span><span class="course-name">Solomito con orzo y vegetales grillados</span></div>
+    <div class="course"><span class="course-label">Postre</span><span class="course-name">Torta de novios · Mesa de postres</span></div>
+  </div>
+</section>
+
+<div class="divider fade-in"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+<!-- TRAVEL GUIDE -->
+<section class="travel-section fade-in">
+  <div class="travel-inner">
+    <span class="section-label">Para los que vienen de lejos</span>
+    <h2 class="section-title">Tu guía de <em>viaje</em></h2>
+    <p class="section-text">Si llegas desde otra ciudad o país, aquí tienes todo lo que necesitas: cómo llegar, dónde hospedarte y qué explorar en Medellín y el Oriente Antioqueño.</p>
+    <div class="travel-tabs">
+      <button class="travel-tab active" onclick="switchTravel('llegar')">Cómo llegar</button>
+      <button class="travel-tab" onclick="switchTravel('hoteles')">Dónde dormir</button>
+      <button class="travel-tab" onclick="switchTravel('medellin')">Medellín</button>
+      <button class="travel-tab" onclick="switchTravel('oriente')">Oriente</button>
+    </div>
+
+    <!-- CÓMO LLEGAR -->
+    <div class="travel-panel active" id="panel-llegar">
+      <p class="section-text" style="margin-bottom:20px;">La boda es en <strong style="color:var(--dark);font-weight:400;">Rionegro, Antioquia</strong>. Aquí tienes todo lo que necesitas para llegar.</p>
+      <div class="route-cards">
+        <div class="route-card">
+          <span class="route-card-label">🚗 Desde Medellín</span>
+          <p class="route-card-title">Por el Túnel de Oriente</p>
+          <p class="route-card-info">San Diego → Av. Las Palmas → Túnel → Glorieta El Tablazo. ~18–20 min.<br><br>⚠️ La boda es sábado — salir con <strong>mínimo 1 hora de anticipación</strong>.</p>
+        </div>
+        <div class="route-card">
+          <span class="route-card-label">✈ Desde el aeropuerto JMC</span>
+          <p class="route-card-title">JMC → Green House</p>
+          <p class="route-card-info">~10 minutos en taxi o Uber.</p>
+        </div>
+        <div class="route-card">
+          <span class="route-card-label">⛪ Ceremonia → Recepción</span>
+          <p class="route-card-title">Parroquia → Zona E</p>
+          <p class="route-card-info">~8 min en auto. ~3 km sobre la vía El Tablazo.</p>
+        </div>
+        <div class="route-card">
+          <span class="route-card-label">📍 Ubicación</span>
+          <p class="route-card-title">El Tablazo, Rionegro</p>
+          <p class="route-card-info">Busca "Green House Zona E Rionegro" en Google Maps.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÓNDE DORMIR -->
+    <div class="travel-panel" id="panel-hoteles">
+      <p class="section-text">Opciones para todos los gustos, cerca al aeropuerto JMC y al salón de recepción.</p>
+      <div class="hotel-list">
+        <div class="hotel-card" style="border:1.5px solid var(--gold);position:relative;">
+          <div class="hotel-num">01</div>
+          <div>
+            <p class="hotel-name">Hotel Lagoon Llanogrande</p>
+            <p class="hotel-addr">Km 13+800 Vía JMC Vereda El Tablazo · Rionegro</p>
+            <span class="hotel-stars">★★★★★</span>
+            <p class="hotel-addr">El hotel más cercano al lugar de la boda. Hermosos jardines, lago, restaurante Cumbal, lanzadera al aeropuerto y atención impecable. Nuestro favorito de la zona.</p>
+            <span class="hotel-tag">A metros del salón Green House</span>
+            <p class="hotel-addr" style="margin-top:10px;color:var(--gold);font-size:12px;">✦ Menciona que vas a la <em>boda de Erika y Andrés</em> al reservar y obtén una tarifa especial.</p>
+          </div>
+        </div>
+        <div class="hotel-card">
+          <div class="hotel-num">02</div>
+          <div>
+            <p class="hotel-name">Río Verde Living Suites</p>
+            <p class="hotel-addr">Rionegro · A 5 min del aeropuerto JMC</p>
+            <span class="hotel-stars">★★★★</span>
+            <p class="hotel-addr">Suites amplias con cocina equipada, balcón, sauna y gimnasio. Excelente relación calidad-precio y servicio muy bien valorado.</p>
+            <span class="hotel-tag">Cerca al aeropuerto JMC</span>
+            <p class="hotel-addr" style="margin-top:10px;color:var(--gold);font-size:12px;">✦ Menciona <em>"Boda Erika & Andrés"</em> al reservar y obtén una tarifa especial.</p>
+          </div>
+        </div>
+        <div class="hotel-card">
+          <div class="hotel-num">03</div>
+          <div>
+            <p class="hotel-name">Hotel Movich Las Lomas</p>
+            <p class="hotel-addr">Glorieta Aeropuerto José María Córdova · Rionegro</p>
+            <span class="hotel-stars">★★★★</span>
+            <p class="hotel-addr">Hotel de referencia en la zona. Piscina, restaurante, sauna y lanzadera gratuita al JMC cada 30 minutos. Desayunos excepcionales.</p>
+          </div>
+        </div>
+        <div class="hotel-card">
+          <div class="hotel-num">04</div>
+          <div>
+            <p class="hotel-name">Hotel Santiago de Arma</p>
+            <p class="hotel-addr">Vía Aeropuerto Llanogrande · Rionegro</p>
+            <span class="hotel-stars">★★★</span>
+            <p class="hotel-addr">Cómodo para llegadas nocturnas. Desayuno incluido y traslado al aeropuerto disponible.</p>
+          </div>
+        </div>
+        <div class="hotel-card">
+          <div class="hotel-num">05</div>
+          <div>
+            <p class="hotel-name">Airbnb · Rionegro & Llanogrande</p>
+            <p class="hotel-addr">airbnb.com → busca "Llanogrande" o "El Tablazo, Rionegro"</p>
+            <span class="hotel-tag">Fincas · Casas de campo · Cabañas</span>
+            <p class="hotel-addr" style="margin-top:8px;">La zona tiene una oferta increíble de fincas en Airbnb. Ideal si vienen en grupo y quieren su propio espacio, piscina y privacidad en medio de la naturaleza.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDELLÍN -->
+    <div class="travel-panel" id="panel-medellin">
+      <p class="section-text">Si llegas unos días antes, la ciudad de la eterna primavera tiene lo suyo. Aquí nuestros lugares favoritos.</p>
+      <div class="spot-grid">
+        <div class="spot-card">
+          <span class="spot-tag">Arte · Historia · Imperdible</span>
+          <p class="spot-name">Comuna 13</p>
+          <p class="spot-desc">Uno de los recorridos más impactantes de la ciudad. Grafiti monumental, escaleras eléctricas, música en vivo y una historia de transformación que enamora.</p>
+        </div>
+        <div class="spot-card">
+          <span class="spot-tag">Barrio · Gastronomía</span>
+          <p class="spot-name">El Poblado</p>
+          <p class="spot-desc">El barrio más cosmopolita. Restaurantes de autor, cafés especiales, bares con vista y mercados artesanales los fines de semana.</p>
+        </div>
+      </div>
+      <div class="resto-group">
+        <span class="resto-group-label">Restaurantes favoritos</span>
+        <div class="resto-list">
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Ocio / Oci.mde</p>
+              <p class="resto-desc">Tv. 7A #30-224, El Poblado · Mar–Sáb 12–10 p.m.</p>
+              <p class="resto-desc" style="margin-top:4px;">Uno de los mejores restaurantes de la ciudad. Cocina de autor, el costillar de res es legendario. Reservar con días de anticipación.</p>
+            </div>
+            <span class="resto-badge">Fine dining</span>
+          </div>
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Moshi Sushi Bar</p>
+              <p class="resto-desc">Cra. 36 #10A-45, El Poblado · Lun–Sáb</p>
+              <p class="resto-desc" style="margin-top:4px;">Sushi de autor en un ambiente íntimo y cuidado. El omakase es una experiencia que vale cada peso.</p>
+            </div>
+            <span class="resto-badge">Japonés · Omakase</span>
+          </div>
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">El Social</p>
+              <p class="resto-desc">Cra. 43A #34-55, El Poblado · Lun–Dom desde las 8 a.m.</p>
+              <p class="resto-desc" style="margin-top:4px;">Una tiendita sin pretensiones pero con todo el sabor. El lugar perfecto para caer a comer chicharrón, tomar un guarito y sentirse como en casa.</p>
+            </div>
+            <span class="resto-badge">Tienda · Sabor local</span>
+          </div>
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Pergamino Café</p>
+              <p class="resto-desc">Cra. 37 #8A-37, El Poblado · Lun–Dom 7 a.m. – 8 p.m.</p>
+              <p class="resto-desc" style="margin-top:4px;">El café especial más icónico de Medellín. Granos de origen colombiano y métodos de preparación de autor. Una parada obligada.</p>
+            </div>
+            <span class="resto-badge">Café especial</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORIENTE -->
+    <div class="travel-panel" id="panel-oriente">
+      <p class="section-text">El Oriente Antioqueño rodea la boda. Paisajes únicos, pueblos increíbles y una mesa que no te va a decepcionar.</p>
+      <div class="spot-grid">
+        <div class="spot-card">
+          <span class="spot-tag">Pueblo · Lago</span>
+          <p class="spot-name">Guatapé</p>
+          <p class="spot-desc">A ~1h 20 min de Rionegro. El pueblo más colorido de Antioquia, con el embalse más hermoso del país y la Piedra del Peñol. Un imperdible absoluto.</p>
+        </div>
+        <div class="spot-card">
+          <span class="spot-tag">Pueblo · Moda & Café</span>
+          <p class="spot-name">El Retiro</p>
+          <p class="spot-desc">A ~30 min de Rionegro. Pueblo boutique del oriente, conocido por sus diseñadores, fincas de café y restaurantes especiales.</p>
+        </div>
+        <div class="spot-card">
+          <span class="spot-tag">Pueblo · Artesanía</span>
+          <p class="spot-name">El Carmen de Víboral</p>
+          <p class="spot-desc">A ~40 min de Rionegro. El pueblo de la cerámica pintada a mano más famosa de Colombia. Talleres artesanales y ambiente auténtico.</p>
+        </div>
+      </div>
+      <div class="resto-group">
+        <span class="resto-group-label">Comida típica</span>
+        <div class="resto-list">
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Sancho Paisa</p>
+              <p class="resto-desc">Rionegro · Cerca al aeropuerto JMC</p>
+              <p class="resto-desc" style="margin-top:4px;">Comida típica antioqueña de verdad. Les recomendamos el calentao — favorito de Andrés. 🍳</p>
+            </div>
+            <span class="resto-badge">Comida típica</span>
+          </div>
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">La Cocina de Dalila</p>
+              <p class="resto-desc">Asdesillas, El Tablazo, Rionegro · Lun–Dom 8 a.m. – 8 p.m.</p>
+              <p class="resto-desc" style="margin-top:4px;">Cocina casera y parrilla bar con mucho sabor antioqueño. Uno de nuestros favoritos en la zona.</p>
+            </div>
+            <span class="resto-badge">Típica · Parrilla</span>
+          </div>
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Asados Exquisitos</p>
+              <p class="resto-desc">Glorieta Aeropuerto JMC, Rionegro · Mar–Dom 8 a.m. – 9 p.m.</p>
+              <p class="resto-desc" style="margin-top:4px;">Clásico del oriente antioqueño. Carnes, frijoles, jugos naturales y todo lo que uno espera de un buen asadero paisa.</p>
+            </div>
+            <span class="resto-badge">Asados · Paisa</span>
+          </div>
+        </div>
+      </div>
+      <div class="resto-group">
+        <span class="resto-group-label">Restaurantes especiales</span>
+        <div class="resto-list">
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Diez y Ocho Cocina</p>
+              <p class="resto-desc">Cl. 38 #59-156, Rionegro · Lun–Dom desde las 9 a.m.</p>
+              <p class="resto-desc" style="margin-top:4px;">Ingredientes de calidad, menú bien pensado y buen servicio. Imperdible en Rionegro.</p>
+            </div>
+            <span class="resto-badge">Cocina de autor</span>
+          </div>
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Steak Blue Steakhouse</p>
+              <p class="resto-desc">Llanogrande, Rionegro · Lun–Dom desde las 12 p.m.</p>
+              <p class="resto-desc" style="margin-top:4px;">El mejor lugar de la zona para cortes de carne. Cabañas privadas y ambiente especial con paisaje. El restaurante de nuestra amiga Juanita. 🤍</p>
+            </div>
+            <span class="resto-badge">Carnes · Steakhouse</span>
+          </div>
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Efímero</p>
+              <p class="resto-desc">Vía La Unión · Oriente Antioqueño</p>
+              <p class="resto-desc" style="margin-top:4px;">El lugar donde celebramos el primer cumpleaños de Andrés. Cocina de autor que cambia con la temporada. Una experiencia única cada vez.</p>
+            </div>
+            <span class="resto-badge">Cocina de temporada</span>
+          </div>
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Capítulo</p>
+              <p class="resto-desc">Oriente Antioqueño</p>
+              <p class="resto-desc" style="margin-top:4px;">Nuestro lugar de aniversario. Cocina cuidada, ambiente íntimo y el servicio que uno espera cuando quiere que la noche sea perfecta.</p>
+            </div>
+            <span class="resto-badge">Íntimo · Especial</span>
+          </div>
+        </div>
+      </div>
+      <div class="resto-group">
+        <span class="resto-group-label">Casual & antojo</span>
+        <div class="resto-list">
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Barro Pizzería</p>
+              <p class="resto-desc">El Retiro, Antioquia</p>
+              <p class="resto-desc" style="margin-top:4px;">Pizza artesanal horneada en leña. Ingredientes frescos, masa de fermentación lenta y ambiente acogedor.</p>
+            </div>
+            <span class="resto-badge">Pizza artesanal</span>
+          </div>
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">Barbacoa MX</p>
+              <p class="resto-desc">El Retiro, Antioquia</p>
+              <p class="resto-desc" style="margin-top:4px;">Comida tradicional mexicana en el corazón del oriente. Tacos, barbacoa y sabores que no esperabas encontrar tan cerca.</p>
+            </div>
+            <span class="resto-badge">Mexicana · Casual</span>
+          </div>
+          <div class="resto-item">
+            <div>
+              <p class="resto-name">D'Res Burger</p>
+              <p class="resto-desc">Km 8.5 Llanogrande, Rionegro · Lun–Dom 12 p.m. – 10 p.m.</p>
+              <p class="resto-desc" style="margin-top:4px;">Las mejores hamburguesas del oriente. Carne de calidad, pan artesanal y una salsa que engancha.</p>
+            </div>
+            <span class="resto-badge">Burgers · Casual</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- RSVP -->
+<section class="rsvp-section" id="rsvp">
+  <div class="rsvp-inner">
+    <span class="section-label">Confirmación de asistencia</span>
+    <h2 class="section-title">¿Nos <em>acompañas?</em></h2>
+    <p class="section-text" style="color:rgba(245,239,230,0.6);">Por favor confirma antes del <strong style="color:rgba(245,239,230,0.85);font-weight:400;">20 de julio de 2026</strong>. La confirmación es individual — si vienen en grupo, cada persona confirma por separado.</p>
+
+    <!-- Formulario -->
+    <div style="margin-top:36px;">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSefROq6HIK5T28Uhqn_oHuyOG-184BUAJQ1ZZjv_qmknVEpJQ/viewform?usp=publish-editor" target="_blank" class="btn"><span>Confirmar asistencia</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer-names">Erika & Andrés</p>
+  <p class="footer-date">15 · Agosto · 2026 · Rionegro, Antioquia</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(e=>{
+    e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible');});
+  },{threshold:0.1});
+  document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+  function switchMenu(t){
+    document.querySelectorAll('.menu-tab').forEach((tab,i)=>tab.classList.toggle('active',(i===0&&t==='novia')||(i===1&&t==='novio')));
+    document.getElementById('menu-novia').classList.toggle('active',t==='novia');
+    document.getElementById('menu-novio').classList.toggle('active',t==='novio');
+  }
+
+  const tMap=['llegar','hoteles','medellin','oriente'];
+  function switchTravel(t){
+    document.querySelectorAll('.travel-tab').forEach((tab,i)=>tab.classList.toggle('active',tMap[i]===t));
+    tMap.forEach(id=>document.getElementById('panel-'+id).classList.toggle('active',id===t));
+  }
+</script>
+</body>
+</html>
